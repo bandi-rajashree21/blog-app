@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>{% block header_title %}My Blog{% endblock %}</h1>
+            <p class="tagline">{% block header_subtitle %}Share your thoughts with the world{% endblock %}</p>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">🏠 Home</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'create_post' %}">✏️ New Post</a></li>
+                    <li><a href="{% url 'admin:index' %}">⚙️ Admin</a></li>
+                    <li><a href="{% url 'login' %}">🚪 Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">🔐 Login</a></li>
+                    <li><a href="{% url 'admin:index' %}">⚙️ Admin</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="main-content fade-in">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer style="background: #333; color: white; text-align: center; padding: 2rem 0; margin-top: 3rem;">
+        <div class="container">
+            <p>&copy; 2026 My Blog with Django.</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

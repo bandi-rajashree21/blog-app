@@ -7,4 +7,5 @@ urlpatterns=[
     path('post/<slug:slug>/edit/', views.edit_post, name='edit_post'),
     path('post/<slug:slug>/delete/', views.delete_post, name='delete_post'),
 
+
 ]
