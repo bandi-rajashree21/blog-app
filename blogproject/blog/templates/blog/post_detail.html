@@ -1,3 +1,7 @@
 <h1>{{ post.title }}</h1>
 <p>{{ post.content }}</p>
 <small>By {{ post.author }} on {{ post.created_at }}</small>
+<br>
+{% if request.user == post.author %}
+    <a href="{% url 'edit_post' post.slug %}">Edit</a>
+{% endif %}
