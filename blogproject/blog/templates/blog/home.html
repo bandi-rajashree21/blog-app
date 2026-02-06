@@ -1,5 +1,9 @@
 <h1>All Blog Posts</h1>
 
+<a href="{% url 'create_post' %}">Create New Post</a>
+<hr>
+
+
 {% for post in posts %}
     <h2>
         <a href="{% url 'post_detail' post.slug %}">
