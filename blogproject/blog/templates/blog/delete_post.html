@@ -1,6 +1,33 @@
-<h1>Are you sure you want to delete "{{ post.title }}"?</h1>
+{% extends 'blog/base.html' %}
 
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit">Yes, Delete</button>
-</form>
+{% block title %}Delete Post - My Blog{% endblock %}
+
+{% block content %}
+<div class="form-container text-center">
+    <div class="mb-4">
+        <h1>Delete Post</h1>
+        <div class="alert alert-error">
+            <h3>Are you sure?</h3>
+            <p>You are about to permanently delete the post:</p>
+            <strong>"{{ post.title }}"</strong>
+        </div>
+        <p>This action cannot be undone. All data associated with this post will be permanently removed.</p>
+    </div>
+    
+    <div class="post-card mb-4" style="text-align: left; opacity: 0.7;">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content|truncatewords:30 }}</p>
+        <div class="post-meta">
+            <span>By {{ post.author }}</span>
+            <span>{{ post.created_at|date:"M d, Y" }}</span>
+        </div>
+    </div>
+    
+    <form method="POST" style="display: inline-block;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete Forever</button>
+    </form>
+    
+    <a href="{% url 'post_detail' post.slug %}" class="btn btn-secondary">Cancel</a>
+</div>
+{% endblock %}
