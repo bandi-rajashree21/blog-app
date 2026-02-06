@@ -19,3 +19,30 @@ This project was built step-by-step to learn Django by mapping concepts from Nod
 - Clean project structure
 
 ---
+
+---
+
+## Setup Instructions
+
+1. Install Django
+```
+pip install django
+```
+2. Run migrations
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+4. Create superuser
+```
+python manage.py createsuperuser
+```
+6. Run server
+```
+python manage.py runserver
+```
+Visit:
+http://127.0.0.1:8000/
+
+Admin:
+http://127.0.0.1:8000/admin/
