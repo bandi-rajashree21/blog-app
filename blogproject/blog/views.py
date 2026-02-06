@@ -3,6 +3,7 @@ from .models import Post
 from django.shortcuts import render, redirect
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
+from django.utils.text import slugify
 # Create your views here.
 
 def home(request):
@@ -43,12 +44,16 @@ def edit_post(request, slug):
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
-            form.save()
-            return redirect('post_detail', slug=post.slug)
+            updated_post = form.save()
+            updated_post.refresh_from_db()
+            if not updated_post.slug:
+                updated_post.slug = slugify(updated_post.title)
+                updated_post.save()
+            return redirect('post_detail', slug=updated_post.slug)
     else:
         form = PostForm(instance=post)
 
-    return render(request, 'blog/edit_post.html', {'form': form})
+    return render(request, 'blog/edit_post.html', {'form': form, 'post': post})
 
 
 @login_required
