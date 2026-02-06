@@ -49,3 +49,17 @@ def edit_post(request, slug):
         form = PostForm(instance=post)
 
     return render(request, 'blog/edit_post.html', {'form': form})
+
+
+@login_required
+def delete_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+
+    if post.author != request.user:
+        return HttpResponseForbidden("You are not allowed to delete this post")
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('home')
+
+    return render(request, 'blog/delete_post.html', {'post': post})

@@ -4,4 +4,5 @@
 <br>
 {% if request.user == post.author %}
     <a href="{% url 'edit_post' post.slug %}">Edit</a>
+    <a href="{% url 'delete_post' post.slug %}">Delete</a>
 {% endif %}
