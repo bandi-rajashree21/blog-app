@@ -1,7 +1,67 @@
-<h1>Edit Post</h1>
+{% extends 'blog/base.html' %}
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-</form>
+{% block title %}Edit Post - My Blog{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="text-center mb-4">
+        <h1>Edit Post</h1>
+        <p>Update your story</p>
+    </div>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        {% if form.title %}
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="alert alert-error">
+                    {{ form.title.errors }}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        {% if form.content %}
+        <div class="form-group">
+            <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
+            {{ form.content }}
+            {% if form.content.errors %}
+                <div class="alert alert-error">
+                    {{ form.content.errors }}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        {% if form.slug %}
+        <div class="form-group">
+            <label for="{{ form.slug.id_for_label }}">{{ form.slug.label }}</label>
+            {{ form.slug }}
+            {% if form.slug.errors %}
+                <div class="alert alert-error">
+                    {{ form.slug.errors }}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Update Post</button>
+            <a href="{% url 'post_detail' post.slug %}" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'delete_post' post.slug %}" class="btn btn-danger">🗑️ Delete Post</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const formFields = document.querySelectorAll('input[type="text"], textarea, select');
+    formFields.forEach(field => {
+        field.classList.add('form-control');
+    });
+});
+</script>
+{% endblock %}

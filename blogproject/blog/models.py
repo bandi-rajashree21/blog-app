@@ -12,9 +12,13 @@ class Post(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
 
 
-    def save(self,*args,**kwargs):
-        if not self.slug:
-            self.slug=slugify(self.title)
-        super().save(*args,**kwargs)
+    def save(self, *args, **kwargs):
+        if not self.slug or self.slug == '':
+            self.slug = slugify(self.title)
+        # Ensure slug is unique
+        if Post.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+            import uuid
+            self.slug = f"{slugify(self.title)}-{str(uuid.uuid4())[:8]}"
+        super().save(*args, **kwargs)
     def __str__(self):
         return self.title
